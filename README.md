@@ -1,6 +1,7 @@
 # Азамат Салькаев — Сайт репетитора по программированию
 
 ## Стек
+
 - **Next.js 14** (App Router)
 - **TypeScript**
 - **Framer Motion** — анимации
@@ -39,34 +40,3 @@ src/
     ├── lib/                # animations.ts (Framer Motion варианты)
     └── config/             # Цвета, навигация
 ```
-
-## Запуск
-
-```bash
-# 1. Установить зависимости
-npm install
-
-# 2. Запустить dev-сервер
-npm run dev
-
-# 3. Открыть в браузере
-# http://localhost:3000
-```
-
-## Сборка для продакшна
-
-```bash
-npm run build
-npm start
-```
-
-## Кастомизация
-
-- **Контент** — редактируй данные в `src/entities/*/model.ts`
-- **Цвета** — меняй переменные в `src/app/globals.css` и `src/shared/config/index.ts`
-- **Фото** — замени аватар-плейсхолдер в `Hero.tsx` на `<Image>` из next/image
-- **Контакты** — обнови ссылки в `src/widgets/contact/ui/Contact.tsx` и `Footer.tsx`
-
-## Подключение формы
-
-В `src/features/contact-form/ui/ContactForm.tsx` замени `handleSubmit` на реальный API-запрос (например, через Telegram Bot API или EmailJS).
