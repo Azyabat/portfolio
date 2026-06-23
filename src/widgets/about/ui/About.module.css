@@ -1,0 +1,153 @@
+.section {
+  padding: 100px 0;
+  background: #0d0d12;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* LEFT */
+.avatarBlock {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(124,92,252,0.3), rgba(0,212,255,0.2));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #7c5cfc;
+}
+
+.role {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+}
+
+.bio {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.65);
+  margin: 0 0 28px;
+}
+
+.facts {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.5;
+}
+
+.factIcon { font-size: 18px; flex-shrink: 0; }
+
+.techRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.techLabel {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+}
+
+.techs { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tech {
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+}
+
+/* RIGHT */
+.right {
+  background: #111118;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.certsTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.certs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.cert {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.certIcon { font-size: 22px; }
+
+.certName {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+}
+
+.certsNote {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+  margin: 0;
+}

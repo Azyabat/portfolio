@@ -1,0 +1,35 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.primary {
+  background: linear-gradient(135deg, #7c5cfc 0%, #5b3fd6 100%);
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(124, 92, 252, 0.35);
+}
+.primary:hover {
+  box-shadow: 0 6px 32px rgba(124, 92, 252, 0.55);
+}
+
+.outline {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+}
+.outline:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sm { padding: 8px 18px; font-size: 13px; }
+.md { padding: 12px 24px; font-size: 15px; }
+.lg { padding: 16px 36px; font-size: 16px; }

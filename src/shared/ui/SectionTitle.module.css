@@ -1,0 +1,7 @@
+.title {
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 40px;
+  letter-spacing: -0.5px;
+}

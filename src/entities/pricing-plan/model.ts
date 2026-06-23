@@ -1,0 +1,54 @@
+export interface PricingPlan {
+  id: string
+  title: string
+  duration: string
+  price: string
+  period?: string
+  badge?: string
+  highlighted: boolean
+  features: string[]
+}
+
+export const PRICING_PLANS: PricingPlan[] = [
+  {
+    id: 'trial',
+    title: 'Пробное занятие',
+    duration: '30 минут',
+    price: 'Бесплатно',
+    highlighted: false,
+    features: [
+      'Знакомство и определение уровня',
+      'Разбор целей обучения',
+      'Без обязательств',
+    ],
+  },
+  {
+    id: 'single',
+    title: 'Индивидуальное',
+    duration: '60 минут',
+    price: '1 500 ₽',
+    period: '/ занятие',
+    badge: 'Популярно',
+    highlighted: true,
+    features: [
+      'Персональный план обучения',
+      'Домашние задания',
+      'Поддержка в Telegram',
+      'Запись занятий',
+    ],
+  },
+  {
+    id: 'pack',
+    title: 'Пакет 8 занятий',
+    duration: '60 минут',
+    price: '10 800 ₽',
+    period: '(скидка 10%)',
+    highlighted: false,
+    features: [
+      'Всё из индивидуального',
+      'Приоритетное расписание',
+      'Проверка проектов',
+      'Скидка 10%',
+    ],
+  },
+]

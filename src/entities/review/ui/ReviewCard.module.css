@@ -1,0 +1,51 @@
+.card {
+  background: #111118;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  background: rgba(124, 92, 252, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+}
+
+.age {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+}
+
+.stars {
+  color: #f5c842;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+}
