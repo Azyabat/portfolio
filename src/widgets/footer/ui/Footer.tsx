@@ -1,6 +1,7 @@
 'use client'
 import styles from './Footer.module.css'
 import { NAV_LINKS } from '@/shared/config'
+import { TelegramIcon } from '@/shared/ui/TelegramIcon'
 
 export function Footer() {
   const scrollTo = (href: string) =>
@@ -41,9 +42,32 @@ export function Footer() {
         <div className={styles.bottom}>
           <span>© 2026 Азамат Салькаев. Все права защищены.</span>
           <div className={styles.socials}>
-            <a href="https://t.me/azamat_dev" target="_blank" rel="noreferrer" className={styles.social}>TG</a>
-            <a href="#" className={styles.social}>WA</a>
-            <a href="#" className={styles.social}>GH</a>
+            <a
+              href="https://t.me/azyabat"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.social}
+              aria-label="Telegram @azyabat"
+              title="Telegram @azyabat"
+            >
+              <TelegramIcon className={styles.telegramIcon} />
+            </a>
+            <a
+              href="tel:+79510514667"
+              className={styles.social}
+              aria-label="Номер телефона +7 951 051 46 67"
+              title="+7 951 051 46 67"
+            >
+              ☎
+            </a>
+            <a
+              href="mailto:azamatsalkaev@gmail.com"
+              className={styles.social}
+              aria-label="Email azamatsalkaev@gmail.com"
+              title="azamatsalkaev@gmail.com"
+            >
+              @
+            </a>
           </div>
         </div>
       </div>

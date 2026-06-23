@@ -44,7 +44,9 @@
 }
 
 .contactIcon {
+  color: #00d4ff;
   font-size: 22px;
+  font-weight: 800;
   width: 40px;
   height: 40px;
   background: rgba(255,255,255,0.05);
@@ -53,6 +55,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.telegramIcon {
+  width: 22px;
+  height: 22px;
 }
 
 .contactLabel {

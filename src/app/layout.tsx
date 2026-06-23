@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description:
     'Помогаю освоить программирование с нуля, подготовиться к ОГЭ по информатике и создавать собственные проекты. Онлайн-занятия для детей, подростков и взрослых.',
   keywords: 'репетитор программирование, ОГЭ информатика, обучение программированию, онлайн курсы',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
