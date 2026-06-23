@@ -20,6 +20,7 @@ export interface Project {
   tags: string[]
   level: ProjectLevel
   color: string
+  href?: string
 }
 
 export const PROJECTS: Project[] = [
@@ -31,6 +32,7 @@ export const PROJECTS: Project[] = [
     tags: ['HTML', 'CSS', 'JavaScript'],
     level: ProjectLevel.Beginner,
     color: '#f5a623',
+    href: '/mini-apps/calculator',
   },
   {
     id: 2,

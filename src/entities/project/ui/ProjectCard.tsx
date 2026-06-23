@@ -10,13 +10,8 @@ interface Props {
 }
 
 export function ProjectCard({ project }: Props) {
-  return (
-    <motion.div
-      variants={scaleIn}
-      whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
-      className={styles.card}
-      style={{ '--accent': project.color } as React.CSSProperties}
-    >
+  const content = (
+    <>
       <div className={styles.top}>
         <div className={styles.imageWrap}>
           <Image
@@ -41,6 +36,31 @@ export function ProjectCard({ project }: Props) {
           <span key={tag} className={styles.tag}>{tag}</span>
         ))}
       </div>
+    </>
+  )
+
+  if (project.href) {
+    return (
+      <motion.a
+        href={project.href}
+        variants={scaleIn}
+        whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
+        className={styles.card}
+        style={{ '--accent': project.color } as React.CSSProperties}
+      >
+        {content}
+      </motion.a>
+    )
+  }
+
+  return (
+    <motion.div
+      variants={scaleIn}
+      whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
+      className={styles.card}
+      style={{ '--accent': project.color } as React.CSSProperties}
+    >
+      {content}
     </motion.div>
   )
 }

@@ -1,0 +1,115 @@
+.calculator {
+  width: min(100%, 380px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+    #111118;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+}
+
+.displayBlock {
+  min-height: 118px;
+  background: #08080d;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.expression {
+  min-height: 18px;
+  color: rgba(255,255,255,0.38);
+  font-size: 13px;
+}
+
+.display {
+  color: #fff;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: right;
+  word-break: break-all;
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.button,
+.controlButton {
+  min-height: 58px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 800;
+  transition: transform 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.button:hover,
+.controlButton:hover {
+  background: rgba(255,255,255,0.11);
+}
+
+.button:active,
+.controlButton:active {
+  transform: scale(0.97);
+}
+
+.controlButton {
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.78);
+}
+
+.operationButton {
+  background: rgba(124,92,252,0.2);
+  color: #9d82ff;
+}
+
+.operationButton:hover {
+  background: rgba(124,92,252,0.3);
+}
+
+.equalButton {
+  grid-row: span 2;
+  background: linear-gradient(135deg, #7c5cfc, #00d4ff);
+  color: #fff;
+  box-shadow: 0 10px 32px rgba(124,92,252,0.26);
+}
+
+.equalButton:hover {
+  background: linear-gradient(135deg, #8d72ff, #20dcff);
+}
+
+.zeroButton {
+  grid-column: span 2;
+}
+
+@media (max-width: 480px) {
+  .calculator {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .displayBlock {
+    min-height: 108px;
+  }
+
+  .display {
+    font-size: 34px;
+  }
+
+  .button,
+  .controlButton {
+    min-height: 54px;
+  }
+}
