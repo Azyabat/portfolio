@@ -13,7 +13,7 @@
 ```
 src/
 ├── app/                    # Next.js App Router (layout, page, globals.css)
-├── pages/
+├── screens/
 │   └── home/ui/            # HomePage — компоновка всех виджетов
 ├── widgets/                # Крупные секции страницы
 │   ├── header/
