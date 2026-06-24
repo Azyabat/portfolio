@@ -1,0 +1,271 @@
+.todoApp {
+  width: min(100%, 440px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+    #111118;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+}
+
+.header {
+  min-height: 118px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(124,92,252,0.22), transparent 34%),
+    #08080d;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.kicker {
+  color: #9d82ff;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #fff;
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.counter {
+  flex-shrink: 0;
+  min-width: 58px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(124,92,252,0.18);
+  border: 1px solid rgba(124,92,252,0.32);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 54px;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.input {
+  min-width: 0;
+  height: 54px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: #08080d;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0 16px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: rgba(124,92,252,0.55);
+}
+
+.addButton {
+  height: 54px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c5cfc, #00d4ff);
+  color: #fff;
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 900;
+  box-shadow: 0 10px 32px rgba(124,92,252,0.26);
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.filterButton {
+  flex: 1;
+  height: 38px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.58);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.activeFilter {
+  background: rgba(124,92,252,0.18);
+  border-color: rgba(124,92,252,0.36);
+  color: #fff;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  height: 256px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 14px;
+}
+
+.list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.16);
+  border-radius: 999px;
+}
+
+.todoItem {
+  align-self: start;
+  min-height: 62px;
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 13px;
+}
+
+.checkButton {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: #08080d;
+  color: #4caf8d;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.todoText {
+  min-width: 0;
+  color: rgba(255,255,255,0.82);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.done .todoText {
+  color: rgba(255,255,255,0.38);
+  text-decoration: line-through;
+}
+
+.done .checkButton {
+  background: rgba(76,175,141,0.16);
+  border-color: rgba(76,175,141,0.34);
+}
+
+.deleteButton {
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.36);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.deleteButton:hover {
+  color: #fff;
+}
+
+.empty {
+  min-height: 74px;
+  align-self: start;
+  border: 1px dashed rgba(255,255,255,0.12);
+  border-radius: 14px;
+  color: rgba(255,255,255,0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(255,255,255,0.44);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.clearButton {
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.74);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 11px 12px;
+}
+
+.clearButton:hover {
+  background: rgba(255,255,255,0.11);
+  color: #fff;
+}
+
+.addButton:active,
+.filterButton:active,
+.checkButton:active,
+.deleteButton:active,
+.clearButton:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 480px) {
+  .todoApp {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .header {
+    min-height: 108px;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .todoItem {
+    grid-template-columns: 34px 1fr;
+  }
+
+  .deleteButton {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

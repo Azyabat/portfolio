@@ -52,6 +52,7 @@ export const PROJECTS: Project[] = [
     tags: ['React', 'State', 'LocalStorage'],
     level: ProjectLevel.Intermediate,
     color: '#7c5cfc',
+    href: '/mini-apps/todo',
   },
   {
     id: 4,
