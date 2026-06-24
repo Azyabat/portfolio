@@ -1,0 +1,164 @@
+.game {
+  width: min(100%, 420px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+    #111118;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+}
+
+.header {
+  min-height: 142px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,212,255,0.18), transparent 36%),
+    #08080d;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.kicker {
+  color: #00d4ff;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.message {
+  min-height: 58px;
+  color: rgba(255,255,255,0.78);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.input {
+  min-width: 0;
+  height: 54px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: #08080d;
+  color: #fff;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 0 16px;
+  outline: none;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.input:focus {
+  border-color: rgba(0,212,255,0.45);
+}
+
+.input:disabled {
+  color: rgba(255,255,255,0.38);
+}
+
+.primaryButton,
+.secondaryButton {
+  border: 0;
+  border-radius: 14px;
+  font-family: inherit;
+  font-weight: 800;
+  transition: transform 0.15s, opacity 0.15s, background 0.15s;
+}
+
+.primaryButton {
+  height: 54px;
+  padding: 0 18px;
+  background: linear-gradient(135deg, #7c5cfc, #00d4ff);
+  color: #fff;
+  box-shadow: 0 10px 32px rgba(124,92,252,0.26);
+}
+
+.primaryButton:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.primaryButton:not(:disabled):active,
+.secondaryButton:active {
+  transform: scale(0.97);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stat {
+  display: grid;
+  gap: 3px;
+}
+
+.stat span {
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+}
+
+.stat strong {
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.secondaryButton {
+  height: 44px;
+  padding: 0 16px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.78);
+}
+
+.secondaryButton:hover {
+  background: rgba(255,255,255,0.11);
+}
+
+@media (max-width: 480px) {
+  .game {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .primaryButton {
+    width: 100%;
+  }
+}

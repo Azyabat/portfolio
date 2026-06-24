@@ -42,6 +42,7 @@ export const PROJECTS: Project[] = [
     tags: ['HTML', 'CSS', 'JavaScript'],
     level: ProjectLevel.Beginner,
     color: '#00d4ff',
+    href: '/mini-apps/guess-number',
   },
   {
     id: 3,
