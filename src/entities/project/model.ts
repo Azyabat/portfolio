@@ -69,9 +69,10 @@ export const PROJECTS: Project[] = [
     title: 'Игра «Змейка»',
     description: 'Создаём игровое поле, движение, столкновения, счёт и управление с клавиатуры.',
     image: '/projects/snake-icon.png',
-    tags: ['JavaScript', 'Canvas', 'Game loop'],
+    tags: ['React', 'CSS Grid', 'Game loop'],
     level: ProjectLevel.Advanced,
     color: '#e91e8c',
+    href: '/mini-apps/snake',
   },
   {
     id: 6,
