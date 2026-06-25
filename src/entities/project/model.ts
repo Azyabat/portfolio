@@ -81,5 +81,6 @@ export const PROJECTS: Project[] = [
     tags: ['React', 'TypeScript', 'Проектирование'],
     level: ProjectLevel.Custom,
     color: '#ff6b35',
+    href: 'https://vyzx.ru',
   },
 ]

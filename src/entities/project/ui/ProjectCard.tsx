@@ -10,6 +10,8 @@ interface Props {
 }
 
 export function ProjectCard({ project }: Props) {
+  const isExternalLink = project.href?.startsWith('http')
+
   const content = (
     <>
       <div className={styles.top}>
@@ -43,6 +45,8 @@ export function ProjectCard({ project }: Props) {
     return (
       <motion.a
         href={project.href}
+        target={isExternalLink ? '_blank' : undefined}
+        rel={isExternalLink ? 'noreferrer' : undefined}
         variants={scaleIn}
         whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
         className={styles.card}
