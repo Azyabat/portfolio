@@ -1,4 +1,5 @@
 .form {
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -36,7 +37,10 @@
   background: rgba(124, 92, 252, 0.05);
 }
 
-.textarea { min-height: 110px; }
+.textarea {
+  flex: 1;
+  min-height: 110px;
+}
 
 .success {
   display: flex;

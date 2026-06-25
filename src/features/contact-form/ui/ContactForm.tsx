@@ -53,7 +53,7 @@ export function ContactForm() {
         onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
       />
       <Button type="submit" variant="primary" size="lg" style={{ width: '100%', justifyContent: 'center' }}>
-        Отправить сообщение ✈️
+        Отправить сообщение
       </Button>
     </form>
   )

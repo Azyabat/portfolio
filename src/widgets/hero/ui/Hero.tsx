@@ -77,7 +77,7 @@ export function Hero() {
               Записаться на пробный урок
             </Button>
             <Button variant="outline" size="lg" onClick={() => scrollTo('contact')}>
-              Связаться со мной ✈️
+              Связаться со мной
             </Button>
           </motion.div>
 

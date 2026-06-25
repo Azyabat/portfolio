@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <defs>
+    <linearGradient id="sunCore" x1="24" y1="22" x2="72" y2="76">
+      <stop stop-color="#FFE66D"/>
+      <stop offset="1" stop-color="#FF9F1C"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g fill="none" stroke="#FFD166" stroke-linecap="round" stroke-width="6" opacity=".9">
+    <path d="M48 8v10"/>
+    <path d="M48 78v10"/>
+    <path d="M8 48h10"/>
+    <path d="M78 48h10"/>
+    <path d="m19.7 19.7 7.1 7.1"/>
+    <path d="m69.2 69.2 7.1 7.1"/>
+    <path d="m76.3 19.7-7.1 7.1"/>
+    <path d="m26.8 69.2-7.1 7.1"/>
+  </g>
+  <circle cx="48" cy="48" r="24" fill="url(#sunCore)" filter="url(#glow)"/>
+</svg>

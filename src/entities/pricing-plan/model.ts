@@ -26,7 +26,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: 'single',
     title: 'Индивидуальное',
     duration: '60 минут',
-    price: '1 500 ₽',
+    price: '1 100 ₽',
     period: '/ занятие',
     badge: 'Популярно',
     highlighted: true,
@@ -41,7 +41,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     id: 'pack',
     title: 'Пакет 8 занятий',
     duration: '60 минут',
-    price: '10 800 ₽',
+    price: '7 920 ₽',
     period: '(скидка 10%)',
     highlighted: false,
     features: [

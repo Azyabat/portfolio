@@ -62,6 +62,7 @@ export const PROJECTS: Project[] = [
     tags: ['React', 'API', 'Fetch'],
     level: ProjectLevel.Intermediate,
     color: '#4caf8d',
+    href: '/mini-apps/weather',
   },
   {
     id: 5,

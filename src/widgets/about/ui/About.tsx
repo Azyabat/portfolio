@@ -5,9 +5,9 @@ import { fadeUp, stagger, slideLeft, slideRight } from '@/shared/lib/animations'
 import styles from './About.module.css'
 
 const STATS = [
-  { value: '6+', label: 'лет в коммерческой разработке' },
-  { value: '3+', label: 'года преподавательской практики' },
-  { value: '2021', label: 'веду занятия по программированию' },
+  { value: '7+', label: 'лет в коммерческой разработке' },
+  { value: '1', label: 'год преподавательской практики' },
+  { value: 'с 2025 г.', label: 'веду занятия по программированию' },
 ]
 
 const PRINCIPLES = [
@@ -25,12 +25,13 @@ const PRINCIPLES = [
   },
 ]
 
-const EXPERTISE = ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Git', 'Алгоритмы', 'Python']
+const EXPERTISE = ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'NodeJS', 'Express', 'Git', 'Алгоритмы']
 
 const CREDENTIALS = [
   'Высшее образование: информатика и вычислительная техника',
   'Senior Frontend Developer',
   'Регулярное повышение квалификации',
+  'Имею аттестацию Минцифры РФ',
 ]
 
 export function About() {

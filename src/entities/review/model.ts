@@ -4,7 +4,7 @@ export interface Review {
   age?: string
   rating: number
   text: string
-  avatar: string
+  avatarInitial: string
 }
 
 export const REVIEWS: Review[] = [
@@ -14,7 +14,7 @@ export const REVIEWS: Review[] = [
     age: '15 лет',
     rating: 5,
     text: 'Сын занимается подготовкой к ОГЭ. Стали понятны темы, которые раньше вызывали трудности. Результат — 5 на пробнике!',
-    avatar: '👩',
+    avatarInitial: 'А',
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ export const REVIEWS: Review[] = [
     age: '17 лет',
     rating: 5,
     text: 'Никогда не думала, что программирование может быть таким интересным! Спасибо за поддержку и крутые проекты!',
-    avatar: '👧',
+    avatarInitial: 'М',
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export const REVIEWS: Review[] = [
     age: '26 лет',
     rating: 5,
     text: 'Начал заниматься с нуля. Уже через пару месяцев смог делать свои проекты. Очень доволен!',
-    avatar: '👨',
+    avatarInitial: 'Д',
   },
   {
     id: 4,
@@ -38,7 +38,7 @@ export const REVIEWS: Review[] = [
     age: '13 лет',
     rating: 5,
     text: 'Ребёнок стал интересоваться программированием после первого же занятия. Индивидуальный подход на высоте!',
-    avatar: '👨',
+    avatarInitial: 'А',
   },
   {
     id: 5,
@@ -46,6 +46,6 @@ export const REVIEWS: Review[] = [
     age: '19 лет',
     rating: 5,
     text: 'Готовилась к вступительным экзаменам. Азамат объяснил всё доступно и понятно. Очень рекомендую!',
-    avatar: '👩',
+    avatarInitial: 'К',
   },
 ]

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <defs>
+    <linearGradient id="cloudSun" x1="20" y1="18" x2="58" y2="58">
+      <stop stop-color="#FFE66D"/>
+      <stop offset="1" stop-color="#FFB703"/>
+    </linearGradient>
+    <linearGradient id="cloudBody" x1="20" y1="34" x2="78" y2="78">
+      <stop stop-color="#F8FBFF"/>
+      <stop offset="1" stop-color="#9EC5FE"/>
+    </linearGradient>
+  </defs>
+  <circle cx="34" cy="32" r="18" fill="url(#cloudSun)" opacity=".95"/>
+  <path
+    fill="url(#cloudBody)"
+    d="M30 76c-11 0-20-8-20-18 0-9 7-17 17-18 4-12 15-20 28-20 15 0 27 11 29 26 8 3 13 9 13 17 0 7-6 13-14 13H30Z"
+    transform="translate(-2 -2) scale(.96)"
+  />
+  <path fill="#DCEBFF" d="M28 74h50c7 0 12-5 12-11 0-5-3-10-9-12-2-12-12-21-26-21-11 0-21 7-25 18-8 1-14 7-14 14 0 7 6 12 12 12Z" opacity=".38"/>
+</svg>

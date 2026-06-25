@@ -16,7 +16,9 @@ export function ReviewCard({ review }: Props) {
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
     >
       <div className={styles.header}>
-        <span className={styles.avatar}>{review.avatar}</span>
+        <span className={styles.avatar} aria-hidden="true">
+          {review.avatarInitial}
+        </span>
         <div>
           <div className={styles.name}>{review.name}</div>
           {review.age && <div className={styles.age}>{review.age}</div>}
