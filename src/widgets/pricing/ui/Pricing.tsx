@@ -3,10 +3,10 @@ import { motion } from 'framer-motion'
 import { SectionTitle } from '@/shared/ui/SectionTitle'
 import { stagger } from '@/shared/lib/animations'
 import { PricingCard } from '@/entities/pricing-plan/ui/PricingCard'
-import { PRICING_PLANS } from '@/entities/pricing-plan/model'
+import { PRICING_PLANS } from '@/entities/pricing-plan/consts'
 import styles from './Pricing.module.css'
 
-export function Pricing() {
+export const Pricing = () => {
   return (
     <section id="pricing" className={styles.section}>
       <div className={styles.container}>

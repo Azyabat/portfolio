@@ -2,25 +2,12 @@
 import { motion } from 'framer-motion'
 import { SectionTitle } from '@/shared/ui/SectionTitle'
 import { ContactForm } from '@/features/contact-form/ui/ContactForm'
-import { TelegramIcon } from '@/shared/ui/TelegramIcon'
 import { slideLeft, slideRight } from '@/shared/lib/animations'
+import { CONTACT_ITEMS } from './consts'
+import { ContactIcon } from './ContactIcon'
 import styles from './Contact.module.css'
 
-const CONTACTS = [
-  { icon: 'telegram', label: 'Telegram', value: '@azyabat', href: 'https://t.me/azyabat', external: true },
-  { icon: 'phone', label: 'Номер телефона', value: '+7 951 051 46 67', href: 'tel:+79510514667' },
-  { icon: 'email', label: 'Email', value: 'azamatsalkaev@gmail.com', href: 'mailto:azamatsalkaev@gmail.com' },
-]
-
-function ContactIcon({ icon }: { icon: string }) {
-  if (icon === 'telegram') {
-    return <TelegramIcon className={styles.telegramIcon} />
-  }
-
-  return <span>{icon === 'phone' ? '☎' : '@'}</span>
-}
-
-export function Contact() {
+export const Contact = () => {
   return (
     <section id="contact" className={styles.section}>
       <div className={styles.container}>
@@ -33,7 +20,7 @@ export function Contact() {
           >
             <SectionTitle style={{ marginBottom: 24 }}>Связаться со мной</SectionTitle>
             <div className={styles.contactLinks}>
-              {CONTACTS.map(c => (
+              {CONTACT_ITEMS.map(c => (
                 <a
                   key={c.label}
                   href={c.href}

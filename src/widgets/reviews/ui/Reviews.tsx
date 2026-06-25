@@ -3,10 +3,10 @@ import { motion } from 'framer-motion'
 import { SectionTitle } from '@/shared/ui/SectionTitle'
 import { stagger } from '@/shared/lib/animations'
 import { ReviewCard } from '@/entities/review/ui/ReviewCard'
-import { REVIEWS } from '@/entities/review/model'
+import { REVIEWS } from '@/entities/review/consts'
 import styles from './Reviews.module.css'
 
-export function Reviews() {
+export const Reviews = () => {
   return (
     <section id="reviews" className={styles.section}>
       <div className={styles.container}>

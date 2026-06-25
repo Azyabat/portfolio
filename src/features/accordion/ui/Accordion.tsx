@@ -12,7 +12,7 @@ interface Props {
   items: AccordionItem[]
 }
 
-export function Accordion({ items }: Props) {
+export const Accordion = ({ items }: Props) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (

@@ -3,7 +3,7 @@ import styles from './Footer.module.css'
 import { NAV_LINKS } from '@/shared/config'
 import { TelegramIcon } from '@/shared/ui/TelegramIcon'
 
-export function Footer() {
+export const Footer = () => {
   const scrollTo = (href: string) =>
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
 

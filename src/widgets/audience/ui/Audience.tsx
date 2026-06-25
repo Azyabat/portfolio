@@ -2,30 +2,10 @@
 import { motion } from 'framer-motion'
 import { SectionTitle } from '@/shared/ui/SectionTitle'
 import { stagger, fadeUp } from '@/shared/lib/animations'
+import { AUDIENCE_GROUPS } from './consts'
 import styles from './Audience.module.css'
 
-const GROUPS = [
-  {
-    icon: '🎒',
-    title: 'Школьникам 10–14 лет',
-    color: '#f5a623',
-    items: ['Первые шаги в программировании', 'Создание игр и простых проектов', 'Развитие логического мышления'],
-  },
-  {
-    icon: '💻',
-    title: 'Подросткам 14–18 лет',
-    color: '#7c5cfc',
-    items: ['Подготовка к ОГЭ по информатике', 'Веб-разработка и реальные проекты', 'Углублённое изучение программирования'],
-  },
-  {
-    icon: '💼',
-    title: 'Взрослым',
-    color: '#00d4ff',
-    items: ['Смена профессии', 'Изучение программирования с нуля', 'Помощь в обучении и развитии'],
-  },
-]
-
-export function Audience() {
+export const Audience = () => {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -37,7 +17,7 @@ export function Audience() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {GROUPS.map(g => (
+          {AUDIENCE_GROUPS.map(g => (
             <motion.div
               key={g.title}
               variants={fadeUp}

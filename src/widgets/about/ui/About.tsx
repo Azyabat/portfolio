@@ -2,39 +2,10 @@
 import { motion } from 'framer-motion'
 import { SectionTitle } from '@/shared/ui/SectionTitle'
 import { fadeUp, stagger, slideLeft, slideRight } from '@/shared/lib/animations'
+import { ABOUT_CREDENTIALS, ABOUT_EXPERTISE, ABOUT_PRINCIPLES, ABOUT_STATS } from './consts'
 import styles from './About.module.css'
 
-const STATS = [
-  { value: '7+', label: 'лет в коммерческой разработке' },
-  { value: '1', label: 'год преподавательской практики' },
-  { value: 'с 2025 г.', label: 'веду занятия по программированию' },
-]
-
-const PRINCIPLES = [
-  {
-    title: 'Объясняю через практику',
-    text: 'Каждая тема закрепляется задачами, мини-проектами и понятными примерами из разработки.',
-  },
-  {
-    title: 'Держу фокус на цели',
-    text: 'Для ОГЭ, старта в вебе или учебных проектов собираю маршрут под уровень ученика.',
-  },
-  {
-    title: 'Учу думать как разработчик',
-    text: 'Разбираем не только синтаксис, но и логику, отладку, аккуратность и самостоятельность.',
-  },
-]
-
-const EXPERTISE = ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'NodeJS', 'Express', 'Git', 'Алгоритмы']
-
-const CREDENTIALS = [
-  'Высшее образование: информатика и вычислительная техника',
-  'Senior Frontend Developer',
-  'Регулярное повышение квалификации',
-  'Имею аттестацию Минцифры РФ',
-]
-
-export function About() {
+export const About = () => {
   return (
     <section id="about" className={styles.section}>
       <div className={styles.container}>
@@ -80,7 +51,7 @@ export function About() {
               viewport={{ once: true }}
               className={styles.stats}
             >
-              {STATS.map(stat => (
+              {ABOUT_STATS.map(stat => (
                 <motion.li key={stat.label} variants={fadeUp} className={styles.stat}>
                   <span className={styles.statValue}>{stat.value}</span>
                   <span className={styles.statLabel}>{stat.label}</span>
@@ -108,7 +79,7 @@ export function About() {
               viewport={{ once: true }}
               className={styles.principles}
             >
-              {PRINCIPLES.map((principle, index) => (
+              {ABOUT_PRINCIPLES.map((principle, index) => (
                 <motion.div key={principle.title} variants={fadeUp} className={styles.principle}>
                   <div className={styles.step}>0{index + 1}</div>
                   <div>
@@ -122,14 +93,14 @@ export function About() {
             <div className={styles.expertiseBlock}>
               <div className={styles.smallTitle}>Технологии и темы</div>
               <div className={styles.techs}>
-                {EXPERTISE.map(item => (
+                {ABOUT_EXPERTISE.map(item => (
                   <span key={item} className={styles.tech}>{item}</span>
                 ))}
               </div>
             </div>
 
             <div className={styles.credentials}>
-              {CREDENTIALS.map(item => (
+              {ABOUT_CREDENTIALS.map(item => (
                 <div key={item} className={styles.credential}>
                   <span className={styles.check}>✓</span>
                   <span>{item}</span>

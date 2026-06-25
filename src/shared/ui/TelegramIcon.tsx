@@ -2,7 +2,7 @@ type TelegramIconProps = {
   className?: string
 }
 
-export function TelegramIcon({ className }: TelegramIconProps) {
+export const TelegramIcon = ({ className }: TelegramIconProps) => {
   return (
     <svg
       className={className}

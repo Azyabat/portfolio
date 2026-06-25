@@ -13,14 +13,14 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="ru" suppressHydrationWarning>
-      <body>
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  )
-}
+const RootLayout = ({ children }: { children: React.ReactNode }) => (
+  <html lang="ru" suppressHydrationWarning>
+    <body>
+      <Header />
+      {children}
+      <Footer />
+    </body>
+  </html>
+)
+
+export default RootLayout

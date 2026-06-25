@@ -19,7 +19,7 @@ function formatResult(result: number | string) {
   return Number.isInteger(result) ? String(result) : String(Number(result.toFixed(8)))
 }
 
-export function CalculatorApp() {
+export const CalculatorApp = () => {
   const [display, setDisplay] = useState('0')
   const [firstNumber, setFirstNumber] = useState<number | null>(null)
   const [operation, setOperation] = useState<Operation | null>(null)

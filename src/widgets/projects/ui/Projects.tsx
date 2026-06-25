@@ -3,10 +3,10 @@ import { motion } from 'framer-motion'
 import { SectionTitle } from '@/shared/ui/SectionTitle'
 import { stagger } from '@/shared/lib/animations'
 import { ProjectCard } from '@/entities/project/ui/ProjectCard'
-import { PROJECTS } from '@/entities/project/model'
+import { PROJECTS } from '@/entities/project/consts'
 import styles from './Projects.module.css'
 
-export function Projects() {
+export const Projects = () => {
   return (
     <section id="projects" className={styles.section}>
       <div className={styles.container}>

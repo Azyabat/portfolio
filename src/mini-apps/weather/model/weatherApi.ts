@@ -1,3 +1,5 @@
+import { FORECAST_HOURS, WEATHER_LABELS } from './consts'
+
 export type WeatherType = 'sun' | 'clouds' | 'overcast' | 'rain'
 
 export type ForecastItem = {
@@ -54,22 +56,6 @@ export type CitySuggestion = {
   latitude: number
   longitude: number
 }
-
-export const WEATHER_LABELS: Record<WeatherType, string> = {
-  sun: 'Солнечно',
-  clouds: 'Облачно',
-  overcast: 'Пасмурно',
-  rain: 'Дождь',
-}
-
-export const WEATHER_ICONS: Record<WeatherType, string> = {
-  sun: '/weather/sun.svg',
-  clouds: '/weather/clouds.svg',
-  overcast: '/weather/overcast.svg',
-  rain: '/weather/rain.svg',
-}
-
-const FORECAST_HOURS = [9, 12, 15, 18]
 
 function getWeatherType(code: number): WeatherType {
   if (code === 0 || code === 1) return 'sun'

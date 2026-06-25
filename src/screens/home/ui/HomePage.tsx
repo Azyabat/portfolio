@@ -9,7 +9,7 @@ import { Pricing } from '@/widgets/pricing/ui/Pricing'
 import { Faq } from '@/widgets/faq/ui/Faq'
 import { Contact } from '@/widgets/contact/ui/Contact'
 
-export function HomePage() {
+export const HomePage = () => {
   return (
     <main>
       <Hero />

@@ -8,7 +8,7 @@ interface Props {
   review: Review
 }
 
-export function ReviewCard({ review }: Props) {
+export const ReviewCard = ({ review }: Props) => {
   return (
     <motion.div
       variants={scaleIn}

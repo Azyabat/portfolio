@@ -9,7 +9,7 @@ interface Props {
   plan: PricingPlan
 }
 
-export function PricingCard({ plan }: Props) {
+export const PricingCard = ({ plan }: Props) => {
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
   }

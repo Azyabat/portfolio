@@ -7,21 +7,19 @@ interface ButtonProps extends HTMLMotionProps<'button'> {
   size?: 'sm' | 'md' | 'lg'
 }
 
-export function Button({
+export const Button = ({
   variant = 'primary',
   size = 'md',
   className,
   children,
   ...rest
-}: ButtonProps) {
-  return (
-    <motion.button
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className={`${styles.btn} ${styles[variant]} ${styles[size]} ${className ?? ''}`}
-      {...rest}
-    >
-      {children}
-    </motion.button>
-  )
-}
+}: ButtonProps) => (
+  <motion.button
+    whileHover={{ scale: 1.03 }}
+    whileTap={{ scale: 0.97 }}
+    className={`${styles.btn} ${styles[variant]} ${styles[size]} ${className ?? ''}`}
+    {...rest}
+  >
+    {children}
+  </motion.button>
+)

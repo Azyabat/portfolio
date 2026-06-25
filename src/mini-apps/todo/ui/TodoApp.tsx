@@ -1,28 +1,10 @@
 'use client'
 import { FormEvent, useState } from 'react'
+import { FILTER_LABELS, FILTERS, INITIAL_TODOS } from './consts'
+import type { Filter, Todo } from './types'
 import styles from './TodoApp.module.css'
 
-type Todo = {
-  id: number
-  text: string
-  isDone: boolean
-}
-
-type Filter = 'all' | 'active' | 'done'
-
-const INITIAL_TODOS: Todo[] = [
-  { id: 1, text: 'Повторить массивы', isDone: false },
-  { id: 2, text: 'Сделать мини-проект', isDone: true },
-  { id: 3, text: 'Разобрать обработчики событий', isDone: false },
-]
-
-const FILTER_LABELS: Record<Filter, string> = {
-  all: 'Все',
-  active: 'Активные',
-  done: 'Готовые',
-}
-
-export function TodoApp() {
+export const TodoApp = () => {
   const [todos, setTodos] = useState<Todo[]>(INITIAL_TODOS)
   const [todoText, setTodoText] = useState('')
   const [filter, setFilter] = useState<Filter>('all')
@@ -91,7 +73,7 @@ export function TodoApp() {
       </form>
 
       <div className={styles.filters}>
-        {(['all', 'active', 'done'] as Filter[]).map(item => (
+        {FILTERS.map(item => (
           <button
             key={item}
             className={`${styles.filterButton} ${filter === item ? styles.activeFilter : ''}`}

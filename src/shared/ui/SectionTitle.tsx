@@ -9,7 +9,7 @@ interface Props {
   style?: React.CSSProperties
 }
 
-export function SectionTitle({ children, className, style }: Props) {
+export const SectionTitle = ({ children, className, style }: Props) => {
   return (
     <motion.h2
       variants={fadeUp}

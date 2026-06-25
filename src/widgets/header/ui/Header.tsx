@@ -5,7 +5,7 @@ import { Button } from '@/shared/ui/Button'
 import { NAV_LINKS } from '@/shared/config'
 import styles from './Header.module.css'
 
-export function Header() {
+export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 

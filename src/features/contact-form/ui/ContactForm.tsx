@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/shared/ui/Button'
 import styles from './ContactForm.module.css'
 
-export function ContactForm() {
+export const ContactForm = () => {
   const [sent, setSent] = useState(false)
   const [form, setForm] = useState({ name: '', phone: '', message: '' })
 

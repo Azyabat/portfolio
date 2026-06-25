@@ -1,21 +1,8 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import { BOARD_SIZE, KEY_DIRECTIONS, START_DIRECTION, START_SNAKE } from './consts'
+import type { Cell, GameStatus } from './types'
 import styles from './SnakeApp.module.css'
-
-const BOARD_SIZE = 12
-const START_SNAKE = [
-  { x: 5, y: 6 },
-  { x: 4, y: 6 },
-  { x: 3, y: 6 },
-]
-const START_DIRECTION = { x: 1, y: 0 }
-
-type Cell = {
-  x: number
-  y: number
-}
-
-type GameStatus = 'ready' | 'playing' | 'paused' | 'gameOver'
 
 function areCellsEqual(first: Cell, second: Cell) {
   return first.x === second.x && first.y === second.y
@@ -46,21 +33,10 @@ function getRandomFood(snake: Cell[]) {
 }
 
 function getDirectionByKey(key: string): Cell | null {
-  const directions: Record<string, Cell> = {
-    ArrowUp: { x: 0, y: -1 },
-    KeyW: { x: 0, y: -1 },
-    ArrowRight: { x: 1, y: 0 },
-    KeyD: { x: 1, y: 0 },
-    ArrowDown: { x: 0, y: 1 },
-    KeyS: { x: 0, y: 1 },
-    ArrowLeft: { x: -1, y: 0 },
-    KeyA: { x: -1, y: 0 },
-  }
-
-  return directions[key] ?? null
+  return KEY_DIRECTIONS[key] ?? null
 }
 
-export function SnakeApp() {
+export const SnakeApp = () => {
   const [snake, setSnake] = useState<Cell[]>(START_SNAKE)
   const [food, setFood] = useState(() => getRandomFood(START_SNAKE))
   const [direction, setDirection] = useState<Cell>(START_DIRECTION)

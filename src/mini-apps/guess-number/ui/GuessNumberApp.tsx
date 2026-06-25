@@ -1,15 +1,13 @@
 'use client'
 import { FormEvent, useState } from 'react'
+import { MAX_NUMBER, MIN_NUMBER } from './consts'
 import styles from './GuessNumberApp.module.css'
-
-const MIN_NUMBER = 1
-const MAX_NUMBER = 100
 
 function getRandomNumber() {
   return Math.floor(Math.random() * MAX_NUMBER) + MIN_NUMBER
 }
 
-export function GuessNumberApp() {
+export const GuessNumberApp = () => {
   const [secretNumber, setSecretNumber] = useState(getRandomNumber)
   const [userAnswer, setUserAnswer] = useState('')
   const [message, setMessage] = useState('Я загадал число от 1 до 100')

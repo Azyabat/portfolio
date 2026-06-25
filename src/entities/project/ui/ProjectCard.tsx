@@ -2,14 +2,15 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { scaleIn } from '@/shared/lib/animations'
-import { PROJECT_LEVEL_LABELS, type Project } from '../model'
+import { PROJECT_LEVEL_LABELS } from '../consts'
+import type { Project } from '../model'
 import styles from './ProjectCard.module.css'
 
 interface Props {
   project: Project
 }
 
-export function ProjectCard({ project }: Props) {
+export const ProjectCard = ({ project }: Props) => {
   const isExternalLink = project.href?.startsWith('http')
 
   const content = (

@@ -5,25 +5,14 @@ import {
   getWeatherByCity,
   getWeatherByLocation,
   searchCitySuggestions,
-  WEATHER_ICONS,
-  WEATHER_LABELS,
   type CitySuggestion,
-  type ForecastItem,
   type WeatherData,
 } from '../model/weatherApi'
+import { WEATHER_ICONS, WEATHER_LABELS } from '../model/consts'
+import { ForecastCard } from './ForecastCard'
 import styles from './WeatherApp.module.css'
 
-function ForecastCard({ item }: { item: ForecastItem }) {
-  return (
-    <div className={styles.forecastCard}>
-      <span className={styles.forecastTime}>{item.time}</span>
-      <Image src={WEATHER_ICONS[item.type]} alt="" width={34} height={34} aria-hidden="true" />
-      <strong>{item.temperature}°</strong>
-    </div>
-  )
-}
-
-export function WeatherApp() {
+export const WeatherApp = () => {
   const [weather, setWeather] = useState<WeatherData | null>(null)
   const [city, setCity] = useState('')
   const [message, setMessage] = useState('Введите город и загрузите прогноз')
