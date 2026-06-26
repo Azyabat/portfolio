@@ -37,9 +37,24 @@
   background: rgba(124, 92, 252, 0.05);
 }
 
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .textarea {
   flex: 1;
   min-height: 110px;
+}
+
+.error {
+  border: 1px solid rgba(255, 113, 113, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 113, 113, 0.08);
+  padding: 12px 14px;
+  color: #ffb8b8;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .success {
