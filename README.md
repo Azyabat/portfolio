@@ -51,12 +51,8 @@ src/
 - `VPS_SSH_KEY` — приватный SSH-ключ для доступа к серверу
 - `VPS_USER` — пользователь на сервере
 - `VPS_PORT` — SSH-порт
-- `SMTP_HOST` — SMTP-сервер почты
-- `SMTP_PORT` — порт SMTP, обычно `465` или `587`
-- `SMTP_USER` — логин почтового ящика
-- `SMTP_PASSWORD` — пароль или пароль приложения
-- `SMTP_FROM` — адрес отправителя
-- `CONTACT_EMAIL_TO` — адрес, на который приходят заявки
+- `TELEGRAM_BOT_TOKEN` — токен бота из `@BotFather`
+- `TELEGRAM_CHAT_ID` — chat id получателя заявок
 
 ### GitHub Variables
 
@@ -72,4 +68,4 @@ src/
 
 ## Форма обратной связи
 
-Форма отправляет заявки через `POST /api/contact` и SMTP. Для локальной разработки можно скопировать `.env.example` в `.env.local` и заполнить настройки почты. При деплое GitHub Actions создает `.env.production` на сервере из SMTP-секретов.
+Форма отправляет заявки через `POST /api/contact` в Telegram-бота. Для локальной разработки можно скопировать `.env.example` в `.env.local` и заполнить настройки Telegram. При деплое GitHub Actions создает `.env.production` на сервере из Telegram-секретов.
