@@ -1,9 +1,9 @@
 import {
   CITY_SUGGESTIONS_LIMIT,
   FORECAST_HOURS,
+  MET_LOCATION_FORECAST_URL,
   NOMINATIM_SEARCH_URL,
   WEATHER_LABELS,
-  WTTR_WEATHER_URL,
 } from './consts'
 
 export type WeatherType = 'sun' | 'clouds' | 'overcast' | 'rain'
@@ -45,33 +45,36 @@ type NominatimResult = {
   address?: NominatimAddress
 }
 
-type WttrWeatherDescription = {
-  value: string
+type MetForecastDetails = {
+  air_temperature: number
+  relative_humidity: number
+  wind_speed: number
 }
 
-type WttrCurrentCondition = {
-  temp_C: string
-  FeelsLikeC: string
-  humidity: string
-  windspeedKmph: string
-  weatherCode: string
-  weatherDesc?: WttrWeatherDescription[]
-  lang_ru?: WttrWeatherDescription[]
+type MetForecastSummary = {
+  symbol_code: string
 }
 
-type WttrHourlyForecast = {
+type MetForecastPeriod = {
+  summary: MetForecastSummary
+}
+
+type MetForecastItem = {
   time: string
-  tempC: string
-  weatherCode: string
+  data: {
+    instant: {
+      details: MetForecastDetails
+    }
+    next_1_hours?: MetForecastPeriod
+    next_6_hours?: MetForecastPeriod
+    next_12_hours?: MetForecastPeriod
+  }
 }
 
-type WttrDayForecast = {
-  hourly: WttrHourlyForecast[]
-}
-
-type WttrForecastResponse = {
-  current_condition: WttrCurrentCondition[]
-  weather: WttrDayForecast[]
+type MetForecastResponse = {
+  properties: {
+    timeseries: MetForecastItem[]
+  }
 }
 
 export type CitySuggestion = {
@@ -83,49 +86,76 @@ export type CitySuggestion = {
   longitude: number
 }
 
-function getWeatherType(code: number): WeatherType {
-  if (code === 113) return 'sun'
-  if (code === 116 || code === 119) return 'clouds'
-  if (code === 122 || code === 143 || code === 248 || code === 260) return 'overcast'
+function getWeatherType(symbolCode: string): WeatherType {
+  if (symbolCode.startsWith('clearsky') || symbolCode.startsWith('fair')) return 'sun'
+  if (symbolCode.startsWith('partlycloudy') || symbolCode.startsWith('cloudy')) return 'clouds'
+  if (symbolCode.startsWith('fog')) return 'overcast'
 
   return 'rain'
 }
 
-function getWeatherLabel(condition: WttrCurrentCondition) {
-  const code = Number(condition.weatherCode)
+function getWeatherLabel(symbolCode: string) {
+  return WEATHER_LABELS[getWeatherType(symbolCode)]
+}
 
-  return condition.lang_ru?.[0]?.value ?? condition.weatherDesc?.[0]?.value ?? WEATHER_LABELS[getWeatherType(code)]
+function getWeatherSymbol(item: MetForecastItem) {
+  return (
+    item.data.next_1_hours?.summary.symbol_code ??
+    item.data.next_6_hours?.summary.symbol_code ??
+    item.data.next_12_hours?.summary.symbol_code ??
+    'cloudy'
+  )
+}
+
+function getFeelsLikeTemperature(temperature: number, windSpeed: number) {
+  if (temperature > 10 || windSpeed <= 1.34) return temperature
+
+  return 13.12 + 0.6215 * temperature - 11.37 * windSpeed ** 0.16 + 0.3965 * temperature * windSpeed ** 0.16
+}
+
+function getDateKey(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
 }
 
 function roundTemperature(value: number) {
   return Math.round(value)
 }
 
-function getNumberValue(value: string) {
+function getNumberValue(value: string | number) {
   const numberValue = Number(value)
 
   return Number.isFinite(numberValue) ? numberValue : 0
 }
 
-function getForecastHour(time: string) {
-  const hour = Math.floor(getNumberValue(time) / 100)
+function getForecastHour(date: Date) {
+  const hour = date.getHours()
 
   return String(hour).padStart(2, '0')
 }
 
-function getForecastItems(response: WttrForecastResponse, dayOffset: number): ForecastItem[] {
-  const dayForecast = response.weather[dayOffset]
+function getForecastItems(response: MetForecastResponse, dayOffset: number): ForecastItem[] {
+  const date = new Date()
+  date.setDate(date.getDate() + dayOffset)
 
-  if (!dayForecast) return []
+  const dateKey = getDateKey(date)
+  const dayItems = response.properties.timeseries.filter(item => getDateKey(new Date(item.time)) === dateKey)
+  const preferredItems = dayItems.filter(item => FORECAST_HOURS.includes(new Date(item.time).getHours()))
+  const items = preferredItems.length > 0 ? preferredItems : dayItems.slice(0, FORECAST_HOURS.length)
 
-  const preferredItems = dayForecast.hourly.filter(item => FORECAST_HOURS.includes(getNumberValue(item.time) / 100))
-  const items = preferredItems.length > 0 ? preferredItems : dayForecast.hourly.slice(0, FORECAST_HOURS.length)
+  return items.slice(0, FORECAST_HOURS.length).map(item => {
+    const date = new Date(item.time)
+    const symbolCode = getWeatherSymbol(item)
 
-  return items.slice(0, FORECAST_HOURS.length).map(item => ({
-    time: `${getForecastHour(item.time)}:00`,
-    temperature: roundTemperature(getNumberValue(item.tempC)),
-    type: getWeatherType(getNumberValue(item.weatherCode)),
-  }))
+    return {
+      time: `${getForecastHour(date)}:00`,
+      temperature: roundTemperature(item.data.instant.details.air_temperature),
+      type: getWeatherType(symbolCode),
+    }
+  })
 }
 
 function getCityName(city: NominatimResult) {
@@ -187,41 +217,46 @@ export async function searchCitySuggestions(city: string): Promise<CitySuggestio
   return cities.map(mapCitySuggestion)
 }
 
-async function getForecast(location: string) {
-  const weatherLocation = encodeURIComponent(location)
-  const params = new URLSearchParams({ format: 'j1', lang: 'ru' })
+async function getForecast(latitude: number, longitude: number) {
+  const params = new URLSearchParams({
+    lat: String(latitude),
+    lon: String(longitude),
+  })
 
-  const response = await fetch(`${WTTR_WEATHER_URL}/${weatherLocation}?${params}`)
+  const response = await fetch(`${MET_LOCATION_FORECAST_URL}?${params}`)
 
   if (!response.ok) {
     throw new Error('Не удалось загрузить прогноз')
   }
 
-  return response.json() as Promise<WttrForecastResponse>
+  return response.json() as Promise<MetForecastResponse>
 }
 
-function mapWeatherData(forecast: WttrForecastResponse, city: string): WeatherData {
-  const current = forecast.current_condition[0]
+function mapWeatherData(forecast: MetForecastResponse, city: string): WeatherData {
+  const current = forecast.properties.timeseries[0]
 
   if (!current) {
     throw new Error('Не удалось загрузить текущую погоду')
   }
 
+  const currentDetails = current.data.instant.details
+  const currentSymbol = getWeatherSymbol(current)
+
   return {
     city,
-    temperature: roundTemperature(getNumberValue(current.temp_C)),
-    feelsLike: roundTemperature(getNumberValue(current.FeelsLikeC)),
-    condition: getWeatherLabel(current),
-    type: getWeatherType(getNumberValue(current.weatherCode)),
-    wind: Math.round(getNumberValue(current.windspeedKmph) / 3.6),
-    humidity: getNumberValue(current.humidity),
+    temperature: roundTemperature(currentDetails.air_temperature),
+    feelsLike: roundTemperature(getFeelsLikeTemperature(currentDetails.air_temperature, currentDetails.wind_speed)),
+    condition: getWeatherLabel(currentSymbol),
+    type: getWeatherType(currentSymbol),
+    wind: Math.round(currentDetails.wind_speed),
+    humidity: Math.round(currentDetails.relative_humidity),
     today: getForecastItems(forecast, 0),
     tomorrow: getForecastItems(forecast, 1),
   }
 }
 
 export async function getWeatherByLocation(location: CitySuggestion): Promise<WeatherData> {
-  const forecast = await getForecast(`${location.latitude},${location.longitude}`)
+  const forecast = await getForecast(location.latitude, location.longitude)
 
   return mapWeatherData(forecast, location.name)
 }
@@ -233,7 +268,14 @@ export async function getWeatherByCity(city: string): Promise<WeatherData> {
     throw new Error('Введите название города')
   }
 
-  const forecast = await getForecast(trimmedCity)
+  const location = await searchCitySuggestions(trimmedCity)
+  const firstLocation = location[0]
 
-  return mapWeatherData(forecast, trimmedCity)
+  if (!firstLocation) {
+    throw new Error('Город не найден')
+  }
+
+  const forecast = await getForecast(firstLocation.latitude, firstLocation.longitude)
+
+  return mapWeatherData(forecast, firstLocation.name)
 }
