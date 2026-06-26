@@ -1,6 +1,9 @@
 import type { Cell } from './types'
 
 export const BOARD_SIZE = 12
+export const START_MOVE_DELAY = 320
+export const MIN_MOVE_DELAY = 145
+export const SPEED_UP_PER_SEGMENT = 9
 
 export const START_SNAKE: Cell[] = [
   { x: 5, y: 6 },

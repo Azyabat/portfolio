@@ -15,3 +15,6 @@ export const WEATHER_ICONS: Record<WeatherType, string> = {
 }
 
 export const FORECAST_HOURS = [9, 12, 15, 18]
+export const CITY_SUGGESTIONS_LIMIT = 3
+export const NOMINATIM_SEARCH_URL = 'https://nominatim.openstreetmap.org/search'
+export const WTTR_WEATHER_URL = 'https://wttr.in'

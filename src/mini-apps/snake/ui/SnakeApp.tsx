@@ -1,6 +1,14 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { BOARD_SIZE, KEY_DIRECTIONS, START_DIRECTION, START_SNAKE } from './consts'
+import {
+  BOARD_SIZE,
+  KEY_DIRECTIONS,
+  MIN_MOVE_DELAY,
+  SPEED_UP_PER_SEGMENT,
+  START_DIRECTION,
+  START_MOVE_DELAY,
+  START_SNAKE,
+} from './consts'
 import type { Cell, GameStatus } from './types'
 import styles from './SnakeApp.module.css'
 
@@ -36,6 +44,12 @@ function getDirectionByKey(key: string): Cell | null {
   return KEY_DIRECTIONS[key] ?? null
 }
 
+const getMoveDelay = (snakeLength: number) => {
+  const extraSegments = Math.max(0, snakeLength - START_SNAKE.length)
+
+  return Math.max(MIN_MOVE_DELAY, START_MOVE_DELAY - extraSegments * SPEED_UP_PER_SEGMENT)
+}
+
 export const SnakeApp = () => {
   const [snake, setSnake] = useState<Cell[]>(START_SNAKE)
   const [food, setFood] = useState(() => getRandomFood(START_SNAKE))
@@ -46,6 +60,7 @@ export const SnakeApp = () => {
   const [bestScore, setBestScore] = useState(0)
 
   const snakeCells = useMemo(() => new Set(snake.map(getCellKey)), [snake])
+  const moveDelay = useMemo(() => getMoveDelay(snake.length), [snake.length])
 
   const startGame = () => {
     setStatus('playing')
@@ -130,10 +145,10 @@ export const SnakeApp = () => {
         nextSnake.pop()
         return nextSnake
       })
-    }, 190)
+    }, moveDelay)
 
     return () => window.clearInterval(timerId)
-  }, [food, nextDirection, score, status])
+  }, [food, moveDelay, nextDirection, score, status])
 
   const cells = []
 

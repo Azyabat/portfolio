@@ -1,4 +1,10 @@
-import { FORECAST_HOURS, WEATHER_LABELS } from './consts'
+import {
+  CITY_SUGGESTIONS_LIMIT,
+  FORECAST_HOURS,
+  NOMINATIM_SEARCH_URL,
+  WEATHER_LABELS,
+  WTTR_WEATHER_URL,
+} from './consts'
 
 export type WeatherType = 'sun' | 'clouds' | 'overcast' | 'rain'
 
@@ -20,32 +26,52 @@ export type WeatherData = {
   tomorrow: ForecastItem[]
 }
 
-type GeocodingResult = {
-  id: number
-  name: string
+type NominatimAddress = {
+  city?: string
+  town?: string
+  village?: string
+  municipality?: string
+  state?: string
+  region?: string
   country?: string
-  admin1?: string
-  latitude: number
-  longitude: number
 }
 
-type GeocodingResponse = {
-  results?: GeocodingResult[]
+type NominatimResult = {
+  place_id: number
+  lat: string
+  lon: string
+  display_name: string
+  name?: string
+  address?: NominatimAddress
 }
 
-type ForecastResponse = {
-  current: {
-    temperature_2m: number
-    apparent_temperature: number
-    relative_humidity_2m: number
-    weather_code: number
-    wind_speed_10m: number
-  }
-  hourly: {
-    time: string[]
-    temperature_2m: number[]
-    weather_code: number[]
-  }
+type WttrWeatherDescription = {
+  value: string
+}
+
+type WttrCurrentCondition = {
+  temp_C: string
+  FeelsLikeC: string
+  humidity: string
+  windspeedKmph: string
+  weatherCode: string
+  weatherDesc?: WttrWeatherDescription[]
+  lang_ru?: WttrWeatherDescription[]
+}
+
+type WttrHourlyForecast = {
+  time: string
+  tempC: string
+  weatherCode: string
+}
+
+type WttrDayForecast = {
+  hourly: WttrHourlyForecast[]
+}
+
+type WttrForecastResponse = {
+  current_condition: WttrCurrentCondition[]
+  weather: WttrDayForecast[]
 }
 
 export type CitySuggestion = {
@@ -58,71 +84,84 @@ export type CitySuggestion = {
 }
 
 function getWeatherType(code: number): WeatherType {
-  if (code === 0 || code === 1) return 'sun'
-  if (code === 2) return 'clouds'
-  if (code === 3 || code === 45 || code === 48) return 'overcast'
+  if (code === 113) return 'sun'
+  if (code === 116 || code === 119) return 'clouds'
+  if (code === 122 || code === 143 || code === 248 || code === 260) return 'overcast'
 
   return 'rain'
 }
 
-function getWeatherLabel(code: number) {
-  return WEATHER_LABELS[getWeatherType(code)]
+function getWeatherLabel(condition: WttrCurrentCondition) {
+  const code = Number(condition.weatherCode)
+
+  return condition.lang_ru?.[0]?.value ?? condition.weatherDesc?.[0]?.value ?? WEATHER_LABELS[getWeatherType(code)]
 }
 
 function roundTemperature(value: number) {
   return Math.round(value)
 }
 
-function getDateKey(date: Date) {
-  return date.toISOString().slice(0, 10)
+function getNumberValue(value: string) {
+  const numberValue = Number(value)
+
+  return Number.isFinite(numberValue) ? numberValue : 0
 }
 
-function getForecastItems(response: ForecastResponse, dayOffset: number): ForecastItem[] {
-  const date = new Date()
-  date.setDate(date.getDate() + dayOffset)
+function getForecastHour(time: string) {
+  const hour = Math.floor(getNumberValue(time) / 100)
 
-  const dateKey = getDateKey(date)
-  const items: ForecastItem[] = []
-
-  response.hourly.time.forEach((time, index) => {
-    const hour = Number(time.slice(11, 13))
-
-    if (time.startsWith(dateKey) && FORECAST_HOURS.includes(hour)) {
-      items.push({
-        time: `${time.slice(11, 13)}:00`,
-        temperature: roundTemperature(response.hourly.temperature_2m[index]),
-        type: getWeatherType(response.hourly.weather_code[index]),
-      })
-    }
-  })
-
-  return items
+  return String(hour).padStart(2, '0')
 }
 
-function getCityLabel(city: GeocodingResult) {
-  return [city.name, getCityDetails(city)].filter(Boolean).join(', ')
+function getForecastItems(response: WttrForecastResponse, dayOffset: number): ForecastItem[] {
+  const dayForecast = response.weather[dayOffset]
+
+  if (!dayForecast) return []
+
+  const preferredItems = dayForecast.hourly.filter(item => FORECAST_HOURS.includes(getNumberValue(item.time) / 100))
+  const items = preferredItems.length > 0 ? preferredItems : dayForecast.hourly.slice(0, FORECAST_HOURS.length)
+
+  return items.slice(0, FORECAST_HOURS.length).map(item => ({
+    time: `${getForecastHour(item.time)}:00`,
+    temperature: roundTemperature(getNumberValue(item.tempC)),
+    type: getWeatherType(getNumberValue(item.weatherCode)),
+  }))
 }
 
-function getCityDetails(city: GeocodingResult) {
-  return [city.admin1, city.country].filter(item => item && item !== city.name).join(', ')
+function getCityName(city: NominatimResult) {
+  return (
+    city.address?.city ??
+    city.address?.town ??
+    city.address?.village ??
+    city.address?.municipality ??
+    city.name ??
+    city.display_name.split(',')[0]
+  )
+}
+
+function getCityDetails(city: NominatimResult, name: string) {
+  return [city.address?.state ?? city.address?.region, city.address?.country]
+    .filter(item => item && item !== name)
+    .join(', ')
+}
+
+function mapCitySuggestion(city: NominatimResult): CitySuggestion {
+  const name = getCityName(city)
+  const details = getCityDetails(city, name)
+
+  return {
+    id: city.place_id,
+    name,
+    label: [name, details].filter(Boolean).join(', '),
+    details,
+    latitude: getNumberValue(city.lat),
+    longitude: getNumberValue(city.lon),
+  }
 }
 
 async function getCityCoordinates(city: string) {
-  const params = new URLSearchParams({
-    name: city,
-    count: '1',
-    language: 'ru',
-    format: 'json',
-  })
-
-  const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?${params}`)
-
-  if (!response.ok) {
-    throw new Error('Не удалось найти город')
-  }
-
-  const data: GeocodingResponse = await response.json()
-  const result = data.results?.[0]
+  const suggestions = await searchCitySuggestions(city)
+  const result = suggestions[0]
 
   if (!result) {
     throw new Error('Город не найден')
@@ -131,66 +170,63 @@ async function getCityCoordinates(city: string) {
   return result
 }
 
+async function fetchCitySuggestions(city: string) {
+  const params = new URLSearchParams({
+    q: city,
+    format: 'jsonv2',
+    addressdetails: '1',
+    limit: String(CITY_SUGGESTIONS_LIMIT),
+    'accept-language': 'ru',
+  })
+
+  const response = await fetch(`${NOMINATIM_SEARCH_URL}?${params}`)
+
+  if (!response.ok) {
+    throw new Error('Не удалось найти город')
+  }
+
+  return response.json() as Promise<NominatimResult[]>
+}
+
 export async function searchCitySuggestions(city: string): Promise<CitySuggestion[]> {
   const trimmedCity = city.trim()
 
   if (trimmedCity.length < 2) return []
 
-  const params = new URLSearchParams({
-    name: trimmedCity,
-    count: '3',
-    language: 'ru',
-    format: 'json',
-  })
+  const cities = await fetchCitySuggestions(trimmedCity)
 
-  const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?${params}`)
-
-  if (!response.ok) {
-    return []
-  }
-
-  const data: GeocodingResponse = await response.json()
-
-  return (data.results ?? []).map(item => ({
-    id: item.id,
-    name: item.name,
-    label: getCityLabel(item),
-    details: getCityDetails(item),
-    latitude: item.latitude,
-    longitude: item.longitude,
-  }))
+  return cities.map(mapCitySuggestion)
 }
 
 async function getForecast(latitude: number, longitude: number) {
-  const params = new URLSearchParams({
-    latitude: String(latitude),
-    longitude: String(longitude),
-    current: 'temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m',
-    hourly: 'temperature_2m,weather_code',
-    forecast_days: '2',
-    timezone: 'auto',
-  })
+  const location = `${latitude},${longitude}`
+  const params = new URLSearchParams({ format: 'j1', lang: 'ru' })
 
-  const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`)
+  const response = await fetch(`${WTTR_WEATHER_URL}/${location}?${params}`)
 
   if (!response.ok) {
     throw new Error('Не удалось загрузить прогноз')
   }
 
-  return response.json() as Promise<ForecastResponse>
+  return response.json() as Promise<WttrForecastResponse>
 }
 
 export async function getWeatherByLocation(location: CitySuggestion): Promise<WeatherData> {
   const forecast = await getForecast(location.latitude, location.longitude)
+  const current = forecast.current_condition[0]
+
+  if (!current) {
+    throw new Error('Не удалось загрузить текущую погоду')
+  }
 
   return {
     city: location.name,
-    temperature: roundTemperature(forecast.current.temperature_2m),
-    feelsLike: roundTemperature(forecast.current.apparent_temperature),
-    condition: getWeatherLabel(forecast.current.weather_code),
-    type: getWeatherType(forecast.current.weather_code),
-    wind: Math.round(forecast.current.wind_speed_10m),
-    humidity: forecast.current.relative_humidity_2m,
+    temperature: roundTemperature(getNumberValue(current.temp_C)),
+    feelsLike: roundTemperature(getNumberValue(current.FeelsLikeC)),
+    condition: getWeatherLabel(current),
+    type: getWeatherType(getNumberValue(current.weatherCode)),
+    wind: Math.round(getNumberValue(current.windspeedKmph) / 3.6),
+    humidity: getNumberValue(current.humidity),
     today: getForecastItems(forecast, 0),
     tomorrow: getForecastItems(forecast, 1),
   }
@@ -202,8 +238,8 @@ export async function getWeatherByCity(city: string): Promise<WeatherData> {
   return getWeatherByLocation({
     id: location.id,
     name: location.name,
-    label: getCityLabel(location),
-    details: getCityDetails(location),
+    label: location.label,
+    details: location.details,
     latitude: location.latitude,
     longitude: location.longitude,
   })
