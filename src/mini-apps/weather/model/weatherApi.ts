@@ -159,17 +159,6 @@ function mapCitySuggestion(city: NominatimResult): CitySuggestion {
   }
 }
 
-async function getCityCoordinates(city: string) {
-  const suggestions = await searchCitySuggestions(city)
-  const result = suggestions[0]
-
-  if (!result) {
-    throw new Error('Город не найден')
-  }
-
-  return result
-}
-
 async function fetchCitySuggestions(city: string) {
   const params = new URLSearchParams({
     q: city,
@@ -198,11 +187,11 @@ export async function searchCitySuggestions(city: string): Promise<CitySuggestio
   return cities.map(mapCitySuggestion)
 }
 
-async function getForecast(latitude: number, longitude: number) {
-  const location = `${latitude},${longitude}`
+async function getForecast(location: string) {
+  const weatherLocation = encodeURIComponent(location)
   const params = new URLSearchParams({ format: 'j1', lang: 'ru' })
 
-  const response = await fetch(`${WTTR_WEATHER_URL}/${location}?${params}`)
+  const response = await fetch(`${WTTR_WEATHER_URL}/${weatherLocation}?${params}`)
 
   if (!response.ok) {
     throw new Error('Не удалось загрузить прогноз')
@@ -211,8 +200,7 @@ async function getForecast(latitude: number, longitude: number) {
   return response.json() as Promise<WttrForecastResponse>
 }
 
-export async function getWeatherByLocation(location: CitySuggestion): Promise<WeatherData> {
-  const forecast = await getForecast(location.latitude, location.longitude)
+function mapWeatherData(forecast: WttrForecastResponse, city: string): WeatherData {
   const current = forecast.current_condition[0]
 
   if (!current) {
@@ -220,7 +208,7 @@ export async function getWeatherByLocation(location: CitySuggestion): Promise<We
   }
 
   return {
-    city: location.name,
+    city,
     temperature: roundTemperature(getNumberValue(current.temp_C)),
     feelsLike: roundTemperature(getNumberValue(current.FeelsLikeC)),
     condition: getWeatherLabel(current),
@@ -232,15 +220,20 @@ export async function getWeatherByLocation(location: CitySuggestion): Promise<We
   }
 }
 
-export async function getWeatherByCity(city: string): Promise<WeatherData> {
-  const location = await getCityCoordinates(city)
+export async function getWeatherByLocation(location: CitySuggestion): Promise<WeatherData> {
+  const forecast = await getForecast(`${location.latitude},${location.longitude}`)
 
-  return getWeatherByLocation({
-    id: location.id,
-    name: location.name,
-    label: location.label,
-    details: location.details,
-    latitude: location.latitude,
-    longitude: location.longitude,
-  })
+  return mapWeatherData(forecast, location.name)
+}
+
+export async function getWeatherByCity(city: string): Promise<WeatherData> {
+  const trimmedCity = city.trim()
+
+  if (!trimmedCity) {
+    throw new Error('Введите название города')
+  }
+
+  const forecast = await getForecast(trimmedCity)
+
+  return mapWeatherData(forecast, trimmedCity)
 }
