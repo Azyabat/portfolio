@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { sendTelegramMessage } from '@/shared/lib/telegram'
 
 type ContactRequest = {
   name?: string
@@ -7,16 +8,6 @@ type ContactRequest = {
 }
 
 const MAX_FIELD_LENGTH = 1000
-
-function getRequiredEnv(name: string) {
-  const value = process.env[name]
-
-  if (!value) {
-    throw new Error(`Missing env ${name}`)
-  }
-
-  return value
-}
 
 function sanitizeField(value: unknown) {
   if (typeof value !== 'string') return ''
@@ -34,27 +25,6 @@ function getContactText({ name, phone, message }: Required<ContactRequest>) {
     'Сообщение:',
     message,
   ].join('\n')
-}
-
-async function sendTelegramMessage(text: string) {
-  const token = getRequiredEnv('TELEGRAM_BOT_TOKEN')
-  const chatId = getRequiredEnv('TELEGRAM_CHAT_ID')
-
-  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text,
-      disable_web_page_preview: true,
-    }),
-  })
-
-  if (!response.ok) {
-    const errorText = await response.text()
-
-    throw new Error(`Telegram API error: ${response.status} ${errorText}`)
-  }
 }
 
 export async function POST(request: Request) {
