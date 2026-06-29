@@ -29,11 +29,19 @@ type GeoInfo = {
 
 const GEO_TIMEOUT_MS = 1600
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as VisitRequest
     const ip = getClientIp(request, body.ip)
     const userAgent = body.userAgent || request.headers.get('user-agent') || 'Неизвестно'
+
+    if (isPrivateIp(ip)) {
+      return NextResponse.json({ message: 'Internal visit ignored' })
+    }
+
     const geo = await getGeoInfo(ip)
 
     await sendTelegramMessage(getVisitMessage({ request: body, ip, userAgent, geo }))
@@ -47,15 +55,28 @@ export async function POST(request: Request) {
 }
 
 function getClientIp(request: Request, fallbackIp?: string) {
-  const forwardedFor = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+  const candidates = [
+    request.headers.get('cf-connecting-ip'),
+    request.headers.get('x-real-ip'),
+    ...getForwardedForIps(request.headers.get('x-forwarded-for')),
+    ...getForwardedHeaderIps(request.headers.get('forwarded')),
+    fallbackIp,
+  ].filter(Boolean) as string[]
 
-  return (
-    forwardedFor ||
-    request.headers.get('x-real-ip') ||
-    request.headers.get('cf-connecting-ip') ||
-    fallbackIp ||
-    'Неизвестно'
-  )
+  return candidates.find(ip => !isPrivateIp(ip)) ?? candidates[0] ?? 'Неизвестно'
+}
+
+function getForwardedForIps(value: string | null) {
+  return value?.split(',').map(ip => ip.trim()).filter(Boolean) ?? []
+}
+
+function getForwardedHeaderIps(value: string | null) {
+  if (!value) return []
+
+  return value
+    .split(',')
+    .map(item => item.match(/for="?([^;,"]+)"?/i)?.[1])
+    .filter(Boolean) as string[]
 }
 
 async function getGeoInfo(ip: string): Promise<GeoInfo | null> {
@@ -92,13 +113,16 @@ async function getGeoInfo(ip: string): Promise<GeoInfo | null> {
 }
 
 function isPrivateIp(ip: string) {
+  const normalizedIp = ip.replace(/^\[|\]$/g, '')
+
   return (
-    ip === 'Неизвестно' ||
-    ip === '::1' ||
-    ip.startsWith('127.') ||
-    ip.startsWith('10.') ||
-    ip.startsWith('192.168.') ||
-    /^172\.(1[6-9]|2\d|3[0-1])\./.test(ip)
+    normalizedIp === 'Неизвестно' ||
+    normalizedIp === '::1' ||
+    normalizedIp === 'localhost' ||
+    normalizedIp.startsWith('127.') ||
+    normalizedIp.startsWith('10.') ||
+    normalizedIp.startsWith('192.168.') ||
+    /^172\.(1[6-9]|2\d|3[0-1])\./.test(normalizedIp)
   )
 }
 
