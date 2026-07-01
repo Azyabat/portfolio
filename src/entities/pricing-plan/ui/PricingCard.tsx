@@ -21,10 +21,14 @@ export const PricingCard = ({ plan }: Props) => {
       className={`${styles.card} ${plan.highlighted ? styles.highlighted : ''}`}
     >
       {plan.badge && <div className={styles.badge}>{plan.badge}</div>}
+      {plan.discountBadge && <div className={styles.discountBadge}>{plan.discountBadge}</div>}
       <div className={styles.title}>{plan.title}</div>
       <div className={styles.duration}>{plan.duration}</div>
       <div className={styles.priceRow}>
-        <span className={styles.price}>{plan.price}</span>
+        <div className={styles.priceGroup}>
+          {plan.oldPrice && <span className={styles.oldPrice}>{plan.oldPrice}</span>}
+          <span className={styles.price}>{plan.price}</span>
+        </div>
         {plan.period && <span className={styles.period}>{plan.period}</span>}
       </div>
       <ul className={styles.features}>

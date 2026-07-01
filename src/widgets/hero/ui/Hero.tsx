@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/shared/ui/Button'
 import { fadeUp, stagger, fadeIn } from '@/shared/lib/animations'
@@ -98,8 +99,15 @@ export const Hero = () => {
         >
           <div className={styles.avatarWrap}>
             <div className={styles.avatarGlow} />
-            <div className={styles.avatarPlaceholder}>
-              <span className={styles.avatarEmoji}>👨‍💻</span>
+            <div className={styles.avatarFrame}>
+              <Image
+                src="/hero/profile-photo.jpg"
+                alt="Азамат Салькаев"
+                fill
+                priority
+                sizes="(max-width: 900px) 0px, 360px"
+                className={styles.avatarImage}
+              />
             </div>
           </div>
         </motion.div>

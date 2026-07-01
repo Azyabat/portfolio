@@ -3,8 +3,10 @@ export interface PricingPlan {
   title: string
   duration: string
   price: string
+  oldPrice?: string
   period?: string
   badge?: string
+  discountBadge?: string
   highlighted: boolean
   features: string[]
 }
