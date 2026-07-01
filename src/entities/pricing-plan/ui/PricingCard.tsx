@@ -21,7 +21,11 @@ export const PricingCard = ({ plan }: Props) => {
       className={`${styles.card} ${plan.highlighted ? styles.highlighted : ''}`}
     >
       {plan.badge && <div className={styles.badge}>{plan.badge}</div>}
-      {plan.discountBadge && <div className={styles.discountBadge}>{plan.discountBadge}</div>}
+      {plan.discountBadge && (
+        <div className={styles.discountBadgeWrap} aria-hidden="true">
+          <div className={styles.discountBadge}>{plan.discountBadge}</div>
+        </div>
+      )}
       <div className={styles.title}>{plan.title}</div>
       <div className={styles.duration}>{plan.duration}</div>
       <div className={styles.priceRow}>
